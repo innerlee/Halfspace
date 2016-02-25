@@ -1,6 +1,8 @@
 export
-    alg4
+    boostNet  # BoostNet
 
-function alg4()
+""" BoostNet """
+function boostNet(features, labels; m=2, delta, gamma, T, B)
+  
   say("love from 4")
 end
