@@ -1,33 +1,38 @@
 export  
-    say,                    # debug output
-    @verbose_say,           # rewrite definition of `say` according value of `verbose`
-    timestr,                # time string, useful for file names
-    floatstr,               # short float string
-    load_data           # load synthetic data
+    say,              # debug output
+    @verbose_say,     # define say according to verbose
+    timestr,          # time string, useful for file names
+    floatstr,         # short float string
+    load_data,        # load synthetic data
+    generate_data     # generate synthetic data
 
 """ debug output """
-function say(sth...)
-  println(sth...)
-end
+say = println
 
-""" rewrite definition of `say` according value of `verbose` """
+""" 
+if :verbose not defined, do nothing; 
+if verbose true, define say as println; 
+else mute say. 
+"""
 macro verbose_say()
   return esc(quote
-    say = verbose ? (sth...) -> println(sth...) : say = (sth...) -> nothing
+    isdefined(:verbose) && (say = verbose ? println : (sth...) -> nothing)
   end) 
 end
 
-""" time string, useful for file names """
-function timestr()
-  "$(Dates.format(now(),"yyyymmdd-HHMMSS"))"
-end
+""" time string, useful for file names, etc. """
+timestr() = "$(Dates.format(now(),"yyyymmdd-HHMMSS"))"
 
 """ short float string """
-function floatstr(num, precision=1000)
-  "$(floor(num*precision)/precision)"
-end
+floatstr(num, precision=1000) = "$(floor(num*precision)/precision)"
 
 """ load synthetic data """
 function load_data()
   say("load data not implemented yet")
+end
+
+""" generate synthetic data """
+function generate_data()
+  isdir("data") || mkdir("data")
+  say("generate data not implemented yet")
 end
