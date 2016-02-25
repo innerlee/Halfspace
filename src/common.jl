@@ -3,6 +3,7 @@ export
     @verbose_say,     # define say according to verbose
     timestr,          # time string, useful for file names
     floatstr,         # short float string
+    share,            # make a tuple of array to SharedArray
     load_data,        # load synthetic data
     generate_data     # generate synthetic data
 
@@ -26,9 +27,17 @@ timestr() = "$(Dates.format(now(),"yyyymmdd-HHMMSS"))"
 """ short float string """
 floatstr(num, precision=1000) = "$(floor(num*precision)/precision)"
 
+""" make a tuple of array to SharedArray """
+share(t::Tuple) = [convert(SharedArray, i) for i in t]
+
 """ load synthetic data """
-function load_data()
-  say("load data not implemented yet")
+function load_data(name="set2")
+  file = "data/$name.jld"
+  isfile(file) || error("file `$file` not found")
+  d = load(file)
+  say("dataset `$name` loaded.")
+  
+  (d["train_data"], d["train_label"], d["validation_data"], d["validation_label"], d["test_data"], d["test_label"])
 end
 
 """ generate synthetic data, column vectors """
