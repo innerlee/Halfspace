@@ -1,10 +1,10 @@
-# test/run.jl
+# run the algorithm to test 2 layer boostNet
 
-set = "set2"
+dataset = "set2" # "set2", "set5"
 train_data, train_label, validation_data, validation_label, test_data, test_label =
-  share(load_data(set))
+  share(load_data(dataset))
   
-model = boostNet(train_data, train_label', m=2, delta=.5, gamma=1, T=100, B=10)
+model = boostNet(train_data, train_label', m=2, T=100, B=10)
 
 p = predict(model, train_data)
 say("train error: ", mean(p .!= train_label'))
