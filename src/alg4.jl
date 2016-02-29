@@ -18,11 +18,15 @@ arguments:
   T,            # of hidden nodes
   B,            [-B, B]^k cube (10)
   
+note:
+  delta, gamma, not used.
+  
 """
 function boostNet(features, labels; m=2, delta=.5, gamma=1, T=10, B=10)
   d, n = size(features) # feature dim
-  
-  net = Net2([0], zeros(1, d))  # init f0 = 0, b0 = 0
+  size(labels) == (1, n) || error("boostNet: column number of features should equal to number of labels")  
+
+  net = Net2(zeros(T), zeros(T, d))  # init f0 = 0, b0 = 0
   
   f(x) = zero(1, size(x, 2))
   
@@ -31,16 +35,16 @@ function boostNet(features, labels; m=2, delta=.5, gamma=1, T=10, B=10)
     
     assert(size(alpha) == (1, n))
     
-    w = alg3(features, labels, m=1, k=10, T=1, B=10, weight=alpha)
+    w = alg3(features, labels, m=1, k=10, T=1, B=10, weight=alpha[:])
     
     assert(size(w) == (1, d))
     
     G = sum(alpha .* sigma(-labels .* (w * features)))
+    
     mu = max(-.5, G)
     b = .5 * log((1 - mu) / (1 + mu))
-    
-    push!(net.b, b)
-    net.W = [net.W; w]
+    net.b[t] = b
+    net.W[t, :] = w
   end
   
   net
