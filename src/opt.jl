@@ -12,6 +12,7 @@ arguments:
   
 """
 function opt(x, u, B)
+  set_default_solver(SCSSolver(verbose=0))
   A = x'
   b = u'
   m, n = size(A)
