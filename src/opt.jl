@@ -1,4 +1,16 @@
 export
-    argmin  # least square solver
+    opt  # least square solver
     
-function argmin()
+"""
+    solve the least square problem
+    
+arguments:
+
+  x,
+  u,
+  B,
+  
+"""
+function opt(x, u, B)
+  
+end

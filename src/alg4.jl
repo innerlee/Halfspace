@@ -19,7 +19,7 @@ arguments:
   B,            [-B, B]^k cube (10)
   
 """
-function boostNet(features, labels; m=10, delta=.5, gamma=1, T=10, B=10)
+function boostNet(features, labels; m=2, delta=.5, gamma=1, T=10, B=10)
   d, n = size(features) # feature dim
   
   net = Net2([0], zeros(1, d))  # init f0 = 0, b0 = 0
@@ -31,7 +31,7 @@ function boostNet(features, labels; m=10, delta=.5, gamma=1, T=10, B=10)
     
     assert(size(alpha) == (1, n))
     
-    w = alg3()
+    w = alg3(features, labels, m=1, k=10, T=1, B=10, weight=alpha)
     
     assert(size(w) == (1, d))
     
