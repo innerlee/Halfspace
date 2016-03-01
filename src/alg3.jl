@@ -29,9 +29,6 @@ function alg3(features, labels; m=1, k=10, s=1, T=1, B=10, weight=[])
     sample(1:n, WeightVec(weight), k, replace=false)
     
   x = features[:, ind]
-  y = labels[ind]'
-  
-  assert(size(y) == (1, k))
   
   # draw u
   u = B * rand(k)'

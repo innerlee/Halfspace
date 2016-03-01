@@ -28,8 +28,6 @@ function boostNet(features, labels; m=2, delta=.5, gamma=1, T=10, B=10)
 
   net = Net2(zeros(T), zeros(T, d))  # init f0 = 0, b0 = 0
   
-  f(x) = zero(1, size(x, 2))
-  
   for t = 1:T
     alpha = normalize1(exp(-labels .* sigma(evaluate(net, features))))
     
@@ -51,9 +49,7 @@ function boostNet(features, labels; m=2, delta=.5, gamma=1, T=10, B=10)
 end
 
 " normalize to be weight 1 "
-function normalize1(v)
-  v / sum(v)
-end
+normalize1(v) = v / sum(v)
 
 " activition function "
 sigma = tanh
@@ -65,11 +61,8 @@ type Net2
 end
 
 " output value "
-function evaluate(m::Net2, features)
-  sum((m.W * features) .* m.b, 1)
-end
+evaluate(m::Net2, features) = sum(sigma(m.W * features) .* m.b, 1)
+#evaluate(m::Net2, features) = sum((m.W * features) .* m.b, 1)
 
 " output +-1 "
-function predict(m::Net2, features)
-  (evaluate(m, features) .> 0) * 2 - 1
-end
+predict(m::Net2, features) = (evaluate(m, features) .> 0) * 2 - 1

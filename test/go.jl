@@ -1,6 +1,6 @@
 # run the algorithm to test 2 layer boostNet
 
-dataset = "set2" # "set2", "set5"
+dataset = "set5" # "set2", "set5"
 train_data, train_label, validation_data, validation_label, test_data, test_label =
   share(load_data(dataset))
   

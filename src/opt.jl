@@ -22,8 +22,7 @@ function opt(x, u, B)
   
   solve!(problem)
   
-  ans = w.value'
-  say(problem.status, ", w^2 = ", (ans * ans')[1])
+  problem.status == :Optimal && print(".")
 
-  ans
+  w.value'
 end
